@@ -1,0 +1,29 @@
+{
+  "name": "angular-gulp-bower-seed",
+  "version": "0.0.1",
+  "description": "template for a new angular project using gulp and bower",
+  "main": "gulpfile.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Robin Duong",
+  "license": "MIT",
+  "dependencies": {
+    "gulp": "^3.8.7",
+    "gulp-load-plugins": "^0.10.0",
+    "gulp-util": "^3.0.6",
+    "gulp-concat": "^2.3.4",
+    "gulp-add-src": "^0.2.0",
+    "del": "^1.2.0",
+    "bower": "^1.3.9",
+    "gulp-jshint": "^1.8.4",
+    "jshint-stylish": "^2.0.1",
+    "gulp-ng-annotate": "^1.0.0",
+    "gulp-uglify": "^0.3.1",
+    "gulp-less": "^3.0.3",
+    "gulp-minify-css": "^0.3.7",
+    "gulp-connect": "^2.0.6",
+    "gulp-angular-templatecache": "^1.6.0",
+    "add-stream": "^1.0.0"
+  }
+}
