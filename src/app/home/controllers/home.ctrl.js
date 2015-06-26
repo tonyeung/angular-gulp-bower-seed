@@ -4,11 +4,10 @@
 
 angular
     .module('app')
-    .controller('MainCtrl', MainCtrl);
+    .controller('HomeCtrl', MainCtrl);
 
 function MainCtrl() {
     var vm = this;
-    vm.test = "Testing...";
 }
 
 /*-- end iify--*/

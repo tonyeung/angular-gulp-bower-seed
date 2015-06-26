@@ -20,7 +20,7 @@ module.exports = {
     ],
 
     lessFiles: [
-        'src/content/styles/**/*.less'
+        'src/app/**/*.less'
     ],
 
     fontFiles: [
@@ -29,7 +29,7 @@ module.exports = {
     ],
 
     imgFiles: [
-        '/src/content/imgs/**/*'
+        '/src/assets/imgs/**/*'
     ]
 
 }

@@ -52,8 +52,9 @@ function processJsDist() {
 }
 
 function prepareTemplates() {
-    return gulp.src('src/content/templates/**/*.html')
-      .pipe(plugins.angularTemplatecache());
+    return gulp.src(['src/app/**/*.html', '!src/app/common/templates/index.html'])
+        .pipe(plugins.angularTemplatecache())
+        .on('error', plugins.util.log);
 }
 
 function processStyles() {
@@ -61,6 +62,18 @@ function processStyles() {
         .pipe(plugins.less())
         .pipe(plugins.addSrc.prepend(config.cssFiles))
         .pipe(plugins.concat('app.css'))
+        .pipe(plugins.uncss({
+            html: ['src/app/**/*.html'],
+            ignore: [
+                /\w\.in/,
+                ".fade",
+                ".collapse",
+                ".collapsing",
+                /(#|\.)navbar(\-[a-zA-Z]+)?/,
+                /(#|\.)dropdown(\-[a-zA-Z]+)?/,
+                /(#|\.)(open)/
+            ]
+        }))
         .pipe(gulp.dest('dev/css/'))
         .on('error', plugins.util.log);
 }
@@ -70,6 +83,18 @@ function processStylesDist() {
         .pipe(plugins.less())
         .pipe(plugins.addSrc.append(config.cssFiles))
         .pipe(plugins.concat('app.css'))
+        .pipe(plugins.uncss({
+            html: ['src/app/**/*.html'],
+            ignore: [
+                /\w\.in/,
+                ".fade",
+                ".collapse",
+                ".collapsing",
+                /(#|\.)navbar(\-[a-zA-Z]+)?/,
+                /(#|\.)dropdown(\-[a-zA-Z]+)?/,
+                /(#|\.)(open)/
+            ]
+        }))
         .pipe(plugins.minifyCss({ keepSpecialComments: 0 }))
         .pipe(gulp.dest('dist/css/'))
         .on('error', plugins.util.log);
@@ -77,29 +102,35 @@ function processStylesDist() {
 
 function moveFonts() {
     return gulp.src(config.fontFiles)
-		.pipe(gulp.dest('dev/fonts'));
+		.pipe(gulp.dest('dev/fonts'))
+        .on('error', plugins.util.log);
 }
 
 function moveFontsDist() {
     return gulp.src(config.fontFiles)
-		.pipe(gulp.dest('dist/fonts'));
+		.pipe(gulp.dest('dist/fonts'))
+        .on('error', plugins.util.log);
 }
 
 function moveStaticContent() {
-    return gulp.src(['src/content/**/*', '!src/content/{templates,templates/**,styles,styles/**}'])
-        .pipe(gulp.dest('dev/'));
+    return gulp.src(['src/assets/**/*', 'src/app/common/templates/index.html'])
+        .pipe(gulp.dest('dev/'))
+        .on('error', plugins.util.log);
 }
 
 function moveStaticContentDist() {
-    return gulp.src(['src/content/**/*', '!src/content/{templates,templates/**,styles,styles/**}'])
-		.pipe(gulp.dest('dist/'));
+    return gulp.src(['src/assets/**/*', 'src/app/common/templates/index.html'])
+		.pipe(gulp.dest('dist/'))
+        .on('error', plugins.util.log);
 }
 
 function runServer() {
     return plugins.connect.server({
         root: 'dev/',
         port: 8888,
-        livereload: true
+        livereload: false,
+        fallback: 'dev/index.html',
+        host:'localhost'
     });
 }
 
@@ -112,12 +143,17 @@ function runServerDist() {
 
 function lint() {
     return gulp.src('src/app/**/*.js')
-      .pipe(plugins.jshint())
-      .pipe(plugins.jshint.reporter('jshint-stylish'))
-      .pipe(plugins.jshint.reporter('fail'));
+        .pipe(plugins.jshint())
+        .pipe(plugins.jshint.reporter('jshint-stylish'))
+        .pipe(plugins.jshint.reporter('fail'))
+        .on('error', plugins.util.log);
 }
 
 function clean() {
+    process.on('uncaughtException', function (err) {
+        console.log(err);
+    })
+
     return del([
         'dist/*',
         'dev/*'
@@ -125,7 +161,9 @@ function clean() {
 }
 
 function watch() {
-    gulp.watch('src/**/*.*', ['build-dev']);
+    gulp
+        .watch('src/**/*.*', ['build-dev'])
+        .on('error', plugins.util.log);
 }
 
 }());

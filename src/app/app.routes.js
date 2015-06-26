@@ -8,13 +8,13 @@ angular
 
 /* @ngInject */
 function configureRoutes($locationProvider, $routeProvider) {
-    $locationProvider.hashPrefix('!');
+    $locationProvider.html5Mode(true);
 
     // routes
     $routeProvider
         .when("/", {            
-            templateUrl: 'home/partial1.html',
-            controller: 'MainCtrl',
+            templateUrl: 'home/templates/home.html',
+            controller: 'HomeCtrl',
             controllerAs: 'vm'
         })
         .otherwise({
