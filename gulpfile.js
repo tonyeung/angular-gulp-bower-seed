@@ -20,7 +20,13 @@
     gulp.task('build', function (callback) {
         runSequence('clean',
                     'lint',
-                    ['process-js-dist', 'process-styles-dist', 'move-fonts-dist', 'move-static-content-dist', 'run-server-dist']);
+                    ['process-js-dist', 'process-styles-dist', 'move-fonts-dist', 'move-static-content-dist']);
+    });
+
+    gulp.task('run', function (callback) {
+        runSequence('clean',
+                    'lint',
+                    ['process-js', 'process-styles', 'move-fonts', 'move-static-content']);
     });
 
     //component tasks
@@ -144,7 +150,7 @@
 
     function watch() {
         return gulp
-            .watch('src/**/*.*', ['build-dev'])
+            .watch('src/**/*.*', ['run'])
             .on('error', plugins.util.log);
     }
 
