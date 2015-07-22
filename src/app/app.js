@@ -3,7 +3,7 @@
 'use strict';
 
 angular
-    .module('app', ['ngRoute', 'ngAnimate', 'templates']);
+    .module('app', ['ngSanitize', 'ngRoute', 'ngAnimate', 'ngMessages', 'templates']);
 
 /*-- end iify--*/
 }());
