@@ -14,19 +14,22 @@
                     'lint',
                     ['process-js', 'process-styles', 'move-fonts', 'move-static-content'],
                     'run-server',
-                    'watch')
+                    'watch',
+                    callback)
     });
 
     gulp.task('build', function (callback) {
         runSequence('clean',
                     'lint',
-                    ['process-js-dist', 'process-styles-dist', 'move-fonts-dist', 'move-static-content-dist']);
+                    ['process-js-dist', 'process-styles-dist', 'move-fonts-dist', 'move-static-content-dist'],
+                    callback);
     });
 
-    gulp.task('run', function (callback) {
+    gulp.task('rebuild', function (callback) {
         runSequence('clean',
                     'lint',
-                    ['process-js', 'process-styles', 'move-fonts', 'move-static-content']);
+                    ['process-js', 'process-styles', 'move-fonts', 'move-static-content'],
+                    callback);
     });
 
     //component tasks
@@ -150,7 +153,7 @@
 
     function watch() {
         return gulp
-            .watch('src/**/*.*', ['run'])
+            .watch('src/**/*.*', ['rebuild'])
             .on('error', plugins.util.log);
     }
 
